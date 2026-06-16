@@ -13,6 +13,9 @@ main
     ├── feature/post (投稿機能担当)
     └── feature/dm (フレンド機能担当)
 ```
+### clone
+cloneはいつもphpを実行する場所においておくこと
+
 ### 開発手順
 developからブランチ作成
 ```
