@@ -1,6 +1,16 @@
 # NitkitShare
 Sharing Site Development
 
+# 技術スタック
+| 分類              | 技術               |
+| --------------- | ---------------- |
+| Backend         | PHP + Laravel    |
+| Frontend        | Blade + Tailwind |
+| Database        | MySQL            |
+| ORM             | Eloquent         |
+| Hosting         | Render           |
+| Version Control | GitHub           |
+
 Git運用ルール
 
 ## ブランチ
