@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FriendController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ThreadController; // Import your controller
 
@@ -16,3 +17,5 @@ Route::get('/threads', [ThreadController::class, 'index'])->name('threads.index'
 Route::post('/threads', [ThreadController::class, 'store'])->name('threads.store');
 // Show the form to create a new thread
 Route::get('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
+
+Route::get('/friends', [FriendController::class, 'index'])->name('friends.index');
