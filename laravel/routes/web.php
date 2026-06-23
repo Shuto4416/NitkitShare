@@ -14,3 +14,5 @@ Route::get('/threads', [ThreadController::class, 'index'])->name('threads.index'
 
 // When a user submits the form to /threads, run the store() method
 Route::post('/threads', [ThreadController::class, 'store'])->name('threads.store');
+// Show the form to create a new thread
+Route::get('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
