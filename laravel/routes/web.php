@@ -16,3 +16,8 @@ Route::get('/threads', [ThreadController::class, 'index'])->name('threads.index'
 Route::post('/threads', [ThreadController::class, 'store'])->name('threads.store');
 // Show the form to create a new thread
 Route::get('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
+
+// Show a specific thread
+Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show']);
+//
+Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show'])->name('threads.show');
