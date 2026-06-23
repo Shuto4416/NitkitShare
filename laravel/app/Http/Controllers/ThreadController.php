@@ -34,4 +34,10 @@ class ThreadController extends Controller
         // 3. Redirect the user back to the thread list page
         return redirect()->route('threads.index');
     }
+
+    // Show the creation form
+    public function create()
+    {
+        return view('threads.create');
+    }
 }
