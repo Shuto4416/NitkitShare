@@ -19,3 +19,7 @@ Route::post('/threads', [ThreadController::class, 'store'])->name('threads.store
 Route::get('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
 
 Route::get('/friends', [FriendController::class, 'index'])->name('friends.index');
+// Show a specific thread
+Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show']);
+//
+Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show'])->name('threads.show');

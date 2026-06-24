@@ -18,20 +18,35 @@ class ThreadController extends Controller
     }
 
     // Save a new thread to the database
+    // 新規スレッドを保存する処理 / Logic to save a new thread
     public function store(Request $request)
     {
-        // 1. Validate the input (prevent empty or overly long thread names)
+        // 1. データの検証 / Validate incoming data
         $request->validate([
-            'name' => 'required|string|max:500',
+            'name' => 'required|string|max:255',
+            'type' => 'required|string',
+            'category' => 'required|string',
+            'grade_year' => 'nullable|string',
+            'department' => 'nullable|string',
+            'course_type' => 'nullable|string',
+            'conditions' => 'nullable|array', // 配列として受け取る
+            'description' => 'nullable|string',
         ]);
 
-        // 2. Save to the database
+        // 2. データベースに保存 / Save to database
         Thread::create([
             'name' => $request->name,
-            'user_id' => 1, // Temporary: hardcoded until Auth feature is merged
+            'type' => $request->type,
+            'category' => $request->category,
+            'grade_year' => $request->grade_year,
+            'department' => $request->department,
+            'course_type' => $request->course_type,
+            'conditions' => $request->conditions, // チェックボックスの配列がそのまま保存されます
+            'description' => $request->description,
+            'user_id' => 1, // 仮のユーザーID
         ]);
 
-        // 3. Redirect the user back to the thread list page
+        // 3. 一覧ページへリダイレクト / Redirect to home
         return redirect()->route('threads.index');
     }
 
