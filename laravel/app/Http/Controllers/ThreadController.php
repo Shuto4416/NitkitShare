@@ -31,9 +31,19 @@ class ThreadController extends Controller
             'course_type' => 'nullable|string',
             'conditions' => 'nullable|array', // 配列として受け取る
             'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 最大2MBの画像のみ許可 (Max 2MB)
         ]);
 
-        // 2. データベースに保存 / Save to database
+        // 2. 画像の保存処理 
+        // 2. Handle the image upload
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            // 'public/images' フォルダに保存し、そのパスを取得します
+            // Store the image in 'public/images' and get the file path
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+
+        // 3. データベースに保存 / Save to database
         Thread::create([
             'name' => $request->name,
             'type' => $request->type,
@@ -43,10 +53,11 @@ class ThreadController extends Controller
             'course_type' => $request->course_type,
             'conditions' => $request->conditions, // チェックボックスの配列がそのまま保存されます
             'description' => $request->description,
+            'image_path' => $imagePath, // 画像のパスを保存 (Save the image path)
             'user_id' => 1, // 仮のユーザーID
         ]);
 
-        // 3. 一覧ページへリダイレクト / Redirect to home
+        // 4. 一覧ページへリダイレクト / Redirect to home
         return redirect()->route('threads.index');
     }
 
