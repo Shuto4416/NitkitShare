@@ -10,7 +10,8 @@ class FriendController extends Controller
 {
     public function index()
     {
-        // $friends = Friend::latest()->get(); 
-        return view('friends.index');
+        // $friends = Friend::All(); 
+        $friends = Friend::latest()->get();
+        return view('friends.index', compact('friends'));
     }
 }
