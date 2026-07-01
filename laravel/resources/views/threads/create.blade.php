@@ -7,7 +7,7 @@
     
     <h1 class="text-2xl font-bold mb-6 border-b-2 border-gray-200 pb-2">アイテムを新規投稿 (Create New Item)</h1>
 
-    <form action="{{ route('threads.store') }}" method="POST">
+    <form action="{{ route('threads.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
         <div class="mb-4">
@@ -88,6 +88,11 @@
                     <span class="text-sm">欠品有</span>
                 </label>
             </div>
+        </div>
+
+        <div class="mb-6 border-t border-gray-200 pt-4">
+            <label class="block text-sm font-bold mb-2">商品画像 (Item Image)</label>
+            <input type="file" name="image" accept="image/*" class="w-full border border-gray-400 p-2 rounded-md bg-white">
         </div>
 
         <div class="mb-6 border-t border-gray-200 pt-4">
