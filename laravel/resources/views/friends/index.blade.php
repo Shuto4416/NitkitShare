@@ -39,4 +39,17 @@ $friend_user_id = 2;
 </div>
 @endif
 @endforeach
+<form action="{{ route('friends.store') }}" method="POST">
+    <div style="width:100%; display:flex; align-items: flex-end; box-sizing:border-box">
+        <div style="position: relative; margin: 0 0px 0px 100px; padding: .8em 1em; border-radius: 5px; background-color: white; border: solid 2px #b0b0b0; width: 80%; word-break:break-all;">
+            @csrf
+            <input type="hidden" name="user_id" value="{{ $main_user_id }}">
+            <input type="hidden" name="fri_id" value="{{ $friend_user_id }}">
+            <textarea name="msg" placeholder="メッセージを入力してください" rows=3; style="box-sizing: border-box; width: 100%; height: 100%; resize: none; "></textarea>
+        </div>
+        <div>
+            <input type="submit" value="->" style="border-radius: 5px; background-color: blue; border: solid 2px #b0b0b0; color: white;">
+        </div>
+</div>
+</form>
 @endsection

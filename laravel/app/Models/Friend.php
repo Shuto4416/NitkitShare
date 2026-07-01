@@ -9,6 +9,7 @@ class Friend extends Model
     public $timestamps = false;
     public function msg()
     {
+        //Friendのmsg_idとMsgのidを紐づけ
     	return $this->belongsTo(Msg::class,'msg_id');
     }
 }

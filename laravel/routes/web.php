@@ -18,7 +18,11 @@ Route::post('/threads', [ThreadController::class, 'store'])->name('threads.store
 // Show the form to create a new thread
 Route::get('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
 
+//表示用
 Route::get('/friends', [FriendController::class, 'index'])->name('friends.index');
+//データ追加用
+Route::post('/friends', [FriendController::class, 'store'])->name('friends.store');
+
 // Show a specific thread
 Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show']);
 //

@@ -11,6 +11,7 @@ class Msg extends Model
     protected $primaryKey = "id";
     public function friend()
     {
+        //Friendのmsg_idとMsgのidを紐づけ
         return $this->hasOne(Friend::class);
     }
 }
