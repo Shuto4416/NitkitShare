@@ -19,5 +19,5 @@ Route::get('/threads/create', [ThreadController::class, 'create'])->name('thread
 
 // Show a specific thread
 Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show']);
-//
+// Route for the detail page
 Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show'])->name('threads.show');
