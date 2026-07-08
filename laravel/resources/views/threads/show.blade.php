@@ -28,7 +28,7 @@
             <span class="font-bold text-sm text-center">5400さん</span>
         </div>
 
-        <div class="flex-grow w-full">
+        <div class="flex-grow w-full min-w-0">
             
             <div class="flex flex-col md:flex-row justify-between items-start mb-4">
                 <h1 class="text-xl md:text-2xl font-bold mb-2 md:mb-0">{{ $thread->name }}（{{ $thread->type }}）</h1>
@@ -49,7 +49,28 @@
                 @endif
             </div>
 
-            <p class="text-gray-700 text-sm mb-8 leading-relaxed">
+
+            <!-- resources/views/threads/show.blade.php -->
+
+            <div class="mb-8 w-full overflow-hidden">
+                <h2 class="text-lg font-bold mb-4">商品画像 (Images)</h2>
+                @if($thread->images->isNotEmpty())
+                    <!-- CSS Grid to display images nicely -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {{-- Loop through ALL images --}}
+                        @foreach($thread->images as $image)
+                            <img src="{{ asset('storage/' . $image->image_path) }}" 
+                                alt="Item Image" 
+                                onclick="openLightbox('{{ asset('storage/' . $image->image_path) }}')"
+                                class="w-full h-64 object-cover rounded-md border border-gray-300 shadow-sm cursor-pointer hover:opacity-80 transition-opacity">
+                        @endforeach
+                    </div>
+                @else
+                    <p class="text-gray-500">画像はありません (No images uploaded)</p>
+                @endif
+            </div>
+
+            <p class="text-gray-700 break-words break-all whitespace-pre-wrap mb-6">
                 {!! nl2br(e($thread->description ?? '説明がありません。(No description provided.)')) !!}
             </p>
 
@@ -65,4 +86,47 @@
 
     </div>
 </div>
+
+
+<div id="lightbox" class="fixed inset-0 z-50 hidden bg-black bg-opacity-90 flex items-center justify-center p-4 transition-opacity duration-300">
+    <button onclick="closeLightbox()" class="absolute top-4 right-6 text-white text-5xl font-bold hover:text-gray-300 z-50 focus:outline-none">
+        &times;
+    </button>
+    
+    <img id="lightboxImage" src="" class="max-w-full max-h-full object-contain rounded-md shadow-2xl">
+</div>
+
+
+<script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+
+    function openLightbox(imageSrc) {
+        lightboxImage.src = imageSrc;
+        lightbox.classList.remove('hidden');
+        // Stop the background from scrolling while lightbox is open
+        document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeLightbox() {
+        lightbox.classList.add('hidden');
+        lightboxImage.src = ''; // Clear the image
+        // Restore background scrolling
+        document.body.style.overflow = 'auto'; 
+    }
+
+    // Advanced UX: Close the lightbox if the user clicks the black background
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    // Advanced UX: Close the lightbox if the user presses the 'Escape' key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+            closeLightbox();
+        }
+    });
+</script>
 @endsection
