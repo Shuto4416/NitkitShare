@@ -24,7 +24,10 @@ class FriendsTableSeeder extends Seeder
               'fri_id' => 1],
               ['user_id' => 1,
               'msg_id' => 3,
-              'fri_id' => 2]
+              'fri_id' => 2],
+              ['user_id' => 1,
+              'msg_id' => 4,
+              'fri_id' => 3]
              ];
         foreach($friends as $friend) {
         \App\Models\Friend::create($friend);

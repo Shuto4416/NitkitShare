@@ -20,6 +20,7 @@ Route::get('/threads/create', [ThreadController::class, 'create'])->name('thread
 
 //表示用
 Route::get('/friends', [FriendController::class, 'index'])->name('friends.index');
+Route::get('/friends/room', [FriendController::class, 'room'])->name('friends.room');
 //データ追加用
 Route::post('/friends', [FriendController::class, 'store'])->name('friends.store');
 

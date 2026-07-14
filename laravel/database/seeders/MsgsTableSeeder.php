@@ -22,6 +22,8 @@ class MsgsTableSeeder extends Seeder
               ['msg' => 'Laravel Book',
               'path' => null],
               ['msg' => 'Ruby Book',
+              'path' => null],
+              ['msg' => '何をして',
               'path' => null]
              ];
 
