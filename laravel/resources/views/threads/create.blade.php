@@ -91,8 +91,12 @@
         </div>
 
         <div class="mb-6 border-t border-gray-200 pt-4">
-            <label class="block text-sm font-bold mb-2">商品画像 (Item Image)</label>
-            <input type="file" name="image" accept="image/*" class="w-full border border-gray-400 p-2 rounded-md bg-white">
+            <label class="block text-sm font-bold mb-2">商品画像 (Multiple Images)</label>
+            
+            <input type="file" id="imageInput" name="image[]" accept="image/*" multiple 
+                class="w-full border border-gray-400 p-2 rounded-md bg-white">
+            
+            <div id="previewContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4"></div>
         </div>
 
         <div class="mb-6 border-t border-gray-200 pt-4">
@@ -108,4 +112,70 @@
         </div>
     </form>
 </div>
+
+<script>
+    const imageInput = document.getElementById('imageInput');
+    const previewContainer = document.getElementById('previewContainer');
+    // We use DataTransfer to manage the files array programmatically
+    let dataTransfer = new DataTransfer();
+    // Listen for when files are selected
+    imageInput.addEventListener('change', function(event) {
+        // Add newly selected files to our DataTransfer object
+        Array.from(imageInput.files).forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        // Update the input with the new list
+        imageInput.files = dataTransfer.files;
+        
+        // Render the UI
+        renderPreviews();
+    });
+
+    function renderPreviews() {
+        // Clear the container first
+        previewContainer.innerHTML = '';
+
+        // Loop through the current files and create thumbnails
+        Array.from(imageInput.files).forEach((file, index) => {
+            // Create an object URL to show the image instantly
+            const objectUrl = URL.createObjectURL(file);
+
+            // Create the HTML for the thumbnail and delete button
+            const previewHtml = `
+                <div class="relative w-full h-32 border border-gray-300 rounded-md overflow-hidden shadow-sm group">
+                    <img src="${objectUrl}" class="w-full h-full object-cover">
+                    
+                    <button type="button" 
+                            onclick="removeImage(${index})" 
+                            class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow-md hover:bg-red-700 transition-colors">
+                        X
+                    </button>
+                </div>
+            `;
+            
+            // Add it to the container
+            previewContainer.insertAdjacentHTML('beforeend', previewHtml);
+        });
+    }
+
+    // Function to remove a specific image when 'X' is clicked
+    function removeImage(indexToRemove) {
+        // Create a fresh DataTransfer object
+        const newDataTransfer = new DataTransfer();
+        
+        // Loop through current files, keep all EXCEPT the one we want to remove
+        Array.from(imageInput.files).forEach((file, index) => {
+            if (index !== indexToRemove) {
+                newDataTransfer.items.add(file);
+            }
+        });
+
+        // Update our main DataTransfer and the actual HTML input
+        dataTransfer = newDataTransfer;
+        imageInput.files = dataTransfer.files;
+
+        // Re-render the thumbnails
+        renderPreviews();
+    }
+</script>
 @endsection

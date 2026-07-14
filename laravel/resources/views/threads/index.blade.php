@@ -105,12 +105,20 @@
         
         <a href="{{ route('threads.show', $thread->id) }}" class="bg-white border border-[#1e2a5e] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col block cursor-pointer">
             
-            <div class="h-32 border-b border-[#1e2a5e] bg-gray-100 flex items-center justify-center overflow-hidden">
-    @if($thread->image_path)
-        <img src="{{ asset('storage/' . $thread->image_path) }}" alt="Item Image" class="w-full h-full object-cover">
-    @else
-        <div class="w-full h-full bg-[#e2e8f0]"></div>
-    @endif
+            <!-- resources/views/threads/index.blade.php -->
+            <div class="w-full h-48 overflow-hidden rounded-t-lg">
+                {{-- Check if the thread has at least one image --}}
+                @if($thread->images->isNotEmpty())
+                    {{-- Grab ONLY the first image using ->first() --}}
+                    <img src="{{ asset('storage/' . $thread->images->first()->image_path) }}" 
+                        alt="{{ $thread->name }}" 
+                        class="w-full h-full object-cover">
+                @else
+                    {{-- Gray placeholder if no images exist --}}
+                    <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+                        No Image
+                    </div>
+                @endif
             </div>
             
             <div class="p-3 flex-grow flex flex-col justify-between">

@@ -26,4 +26,9 @@ class Thread extends Model
     protected $casts = [
         'conditions' => 'array',
     ];
+    // 1つのスレッドは複数の画像を持つ (Has Many relationship)
+    public function images()
+    {
+        return $this->hasMany(ThreadImage::class);
+    }
 }

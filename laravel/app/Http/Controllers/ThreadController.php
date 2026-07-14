@@ -10,8 +10,8 @@ class ThreadController extends Controller
     // Fetch and display all threads
     public function index()
     {
-        // Get all threads from the database, newest first
-        $threads = Thread::latest()->get(); 
+        // Add 'with('images')' to grab the images at the same time as the threads!
+        $threads = Thread::with('images')->latest()->get();
 
         // Pass the $threads data to the Blade view (we will build this in Step 4)
         return view('threads.index', compact('threads'));
@@ -19,9 +19,11 @@ class ThreadController extends Controller
 
     // Save a new thread to the database
     // 新規スレッドを保存する処理 / Logic to save a new thread
+
     public function store(Request $request)
     {
-        // 1. データの検証 / Validate incoming data
+        // 1. Validation (Notice the 'image.*' to validate each file in the array)
+        // バリデーション 
         $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|string',
@@ -29,37 +31,52 @@ class ThreadController extends Controller
             'grade_year' => 'nullable|string',
             'department' => 'nullable|string',
             'course_type' => 'nullable|string',
-            'conditions' => 'nullable|array', // 配列として受け取る
+            'conditions' => 'nullable|array',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 最大2MBの画像のみ許可 (Max 2MB)
+            'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
-        // 2. 画像の保存処理 
-        // 2. Handle the image upload
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            // 'public/images' フォルダに保存し、そのパスを取得します
-            // Store the image in 'public/images' and get the file path
-            $imagePath = $request->file('image')->store('images', 'public');
-        }
-
-        // 3. データベースに保存 / Save to database
-        Thread::create([
+        // 2. Save the Thread first (We need the $thread variable to get its ID)
+        // スレッドを保存
+        $thread = Thread::create([
             'name' => $request->name,
             'type' => $request->type,
             'category' => $request->category,
             'grade_year' => $request->grade_year,
             'department' => $request->department,
             'course_type' => $request->course_type,
-            'conditions' => $request->conditions, // チェックボックスの配列がそのまま保存されます
+            'conditions' => $request->conditions,
             'description' => $request->description,
-            'image_path' => $imagePath, // 画像のパスを保存 (Save the image path)
-            'user_id' => 1, // 仮のユーザーID
+            'user_id' => 1, 
         ]);
 
-        // 4. 一覧ページへリダイレクト / Redirect to home
+        // 3. Loop through and save multiple images
+        // 画像をループして保存
+        if ($request->hasFile('image')) {
+            foreach ($request->file('image') as $uploadedFile) {
+                // Store the file in public/images
+                $path = $uploadedFile->store('images', 'public');
+                // Save the path to the thread_images table, linked to this thread's ID
+                \App\Models\ThreadImage::create([
+                    'thread_id' => $thread->id,
+                    'image_path' => $path,
+                ]);
+            }
+        }
+
         return redirect()->route('threads.index');
     }
+
+
+    // Show a single thread detail page
+    public function show($id)
+    {
+        // Find the thread by its ID, and load its images to prevent N+1 queries
+        $thread = Thread::with('images')->findOrFail($id);
+        // Pass the $thread variable to the detail view
+        return view('threads.show', compact('thread'));
+    }
+    
 
     // Show the creation form
     public function create()

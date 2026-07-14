@@ -26,5 +26,5 @@ Route::post('/friends', [FriendController::class, 'store'])->name('friends.store
 
 // Show a specific thread
 Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show']);
-//
+// Route for the detail page
 Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show'])->name('threads.show');
