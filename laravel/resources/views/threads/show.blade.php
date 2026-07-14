@@ -35,19 +35,29 @@
                 <span class="text-gray-400 text-sm font-bold flex-shrink-0">{{ $thread->created_at->format('Y/m/d') }}</span>
             </div>
 
-            <div class="flex flex-wrap gap-2 mb-4">
-                <span class="border border-black rounded-full px-4 py-1 text-sm font-bold">{{ $thread->category }}</span>
-                
+            <div class="flex flex-wrap gap-2 mb-6 text-sm font-bold">
+                <span class="border border-black rounded-full px-4 py-1">{{ $thread->category }}</span>
                 @if($thread->department)
-                    <span class="border border-black rounded-full px-4 py-1 text-sm font-bold">{{ $thread->department }}</span>
+                    <span class="border border-black rounded-full px-4 py-1">{{ $thread->department }}</span>
                 @endif
-
-                @if($thread->conditions)
-                    @foreach($thread->conditions as $condition)
-                        <span class="border border-black rounded-full px-4 py-1 text-sm font-bold">{{ $condition }}</span>
-                    @endforeach
+                
+                @if($thread->course_type)
+                    <span class="border border-black rounded-full px-4 py-1">{{ $thread->course_type }}</span>
                 @endif
             </div>
+
+            @if(!empty($thread->conditions))
+            <div class="mb-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <h3 class="text-xs text-gray-500 mb-2">アイテムの状態 / 必要なスキル (Conditions & Skills):</h3>
+                <div class="flex flex-wrap gap-2">
+                    @foreach($thread->conditions as $condition)
+                        <span class="bg-white border border-gray-400 rounded-full px-3 py-1 text-xs font-bold text-gray-700 shadow-sm">
+                            {{ $condition }}
+                        </span>
+                    @endforeach
+                </div>
+            </div>
+            @endif
 
 
             <!-- resources/views/threads/show.blade.php -->
