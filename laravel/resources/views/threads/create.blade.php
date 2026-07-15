@@ -68,6 +68,45 @@
             </div>
         </div>
 
+
+
+        <div class="mb-6 border-t border-gray-200 pt-4">
+            <label class="block text-sm font-bold mb-3">スキル要件 (Skills)</label>
+            
+            <div class="mb-3">
+                <p class="text-xs text-gray-600 mb-2">依頼者のスキル：</p>
+                <div class="flex flex-wrap gap-2 items-center">
+                    @foreach(['初学者', '一部自律', '習得済み', '熟練者'] as $skill)
+                    <label class="cursor-pointer">
+                        <input type="checkbox" name="skills[]" value="{{ $skill }}" class="peer sr-only">
+                        <span class="bg-white border border-black rounded-full px-3 py-1 text-xs font-bold peer-checked:bg-[#e2e8f0] peer-checked:ring-2 peer-checked:ring-black transition">{{ $skill }}</span>
+                    </label>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <p class="text-xs text-gray-600 mb-2">求められているスキル：</p>
+                <div class="flex flex-wrap gap-2 items-center">
+                    @foreach(['指導者', '開発協力'] as $skill)
+                    <label class="cursor-pointer">
+                        <input type="checkbox" name="skills[]" value="{{ $skill }}" class="peer sr-only">
+                        <span class="bg-white border border-black rounded-full px-3 py-1 text-xs font-bold peer-checked:bg-[#e2e8f0] peer-checked:ring-2 peer-checked:ring-black transition">{{ $skill }}</span>
+                    </label>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="mt-3 flex items-center space-x-2">
+                <span class="text-xl font-bold text-gray-400">+</span>
+                <input type="text" name="custom_skills[]" placeholder="独自のスキルを追加 (例: C++, Laravel)" 
+                    class="border border-gray-400 rounded-md px-3 py-1 text-sm w-64 focus:outline-none focus:border-[#1e2a5e]">
+            </div>
+        </div>
+
+
+
+
         <div class="mb-6 border-t border-gray-200 pt-4">
             <label class="block text-sm font-bold mb-3">状態 (Condition - 複数選択可)</label>
             <div class="flex flex-wrap gap-4">
