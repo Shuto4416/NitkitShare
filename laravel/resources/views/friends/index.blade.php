@@ -1,10 +1,15 @@
 @extends('layouts.app')
 @section('title', 'friends')
 @section('content')
+
+<!-- phpの処理部分 -->
 @php
 $main_user_id = $user_id;
 $friend_user_id = $fri_id;
 @endphp
+<!-- phpの処理終わり -->
+
+
 <div style="overflow-y: auto; height: 100%;">
     <div style="margin: 0 0 200px 0; box-sizing: border-box;">
         @foreach($friends as $friend)
@@ -17,6 +22,8 @@ $friend_user_id = $fri_id;
                 <span style="position: absolute; right: -13px; width: 13px; height: 30px; color: #ffffff00; background-color: #b0b0b0; clip-path: polygon(0% 0%, 100% 50%, 0% 100%); top: 15px;">
                     .
                 </span>
+
+                <!-- 変数の内容は{{変数名}}で呼び出せる -->
                 {{$friend->msg->msg??'null'}}
                 <span style="position: absolute; right: -11px; width: 13px; height: 30px; color: #ffffff00; background-color: white; clip-path: polygon(0% 0%, 100% 50%, 0% 100%); top: 15px;">
                     .
@@ -42,18 +49,26 @@ $friend_user_id = $fri_id;
         @endif
         @endforeach
     </div>
+        <!-- 他のページにリクエストを飛ばす -->
+         <!-- actionだけ書き方を変えておけばok -->
         <form action="{{ route('friends.store') }}" method="POST">
+
+        <!-- データを飛ばす部分 -->
             <div style="position: fixed; width:100%;  bottom: 0px; display:flex; align-items: flex-end;">
                 <div style="position: relative; margin: 0 0px 0px 100px; padding: .8em 1em; border-radius: 5px; background-color: white; border: solid 2px #b0b0b0; width: 80%; word-break:break-all;">
+                    <!-- ↓データ飛ばすときになんか必要らしい -->
                     @csrf
+                    <!-- 飛ばすデータ -->
                     <input type="hidden" name="user_id" value="{{ $main_user_id }}">
                     <input type="hidden" name="fri_id" value="{{ $friend_user_id }}">
                     <textarea name="msg" placeholder="メッセージを入力してください" rows=3; style="box-sizing: border-box; width: 100%; height: 100%; resize: none; "></textarea>
+                    <!-- データ部分終わり -->
                 </div>
                 <div>
                     <input type="submit" value="->" style="border-radius: 5px; background-color: blue; border: solid 2px #b0b0b0; color: white;">
                 </div>
         </div>
+
         </form>
 </div>
 @endsection
