@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Friend extends Model
 {
-    public $timestamps = false;
     public function msg()
     {
         //Friendのmsg_idとMsgのidを紐づけ
