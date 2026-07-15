@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
     use HasFactory;
-
     // 保存を許可するカラム / Allow mass assignment for these columns
     protected $fillable = [
         'name',
@@ -22,10 +21,14 @@ class Thread extends Model
         'image_path',
         'user_id',
     ];
-
     // 配列データを自動的にJSONに変換してデータベースに保存する設定
     // Cast the conditions JSON column back to an Array automatically
     protected $casts = [
         'conditions' => 'array',
     ];
+    // 1つのスレッドは複数の画像を持つ (Has Many relationship)
+    public function images()
+    {
+        return $this->hasMany(ThreadImage::class);
+    }
 }
