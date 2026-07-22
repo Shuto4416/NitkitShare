@@ -3,6 +3,7 @@
 use App\Http\Controllers\FriendController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ThreadController; // Import your controller
+use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,3 +29,15 @@ Route::post('/friends', [FriendController::class, 'store'])->name('friends.store
 Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show']);
 // Route for the detail page
 Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show'])->name('threads.show');
+
+// 新規登録画面の表示
+Route::get('/register', [LoginController::class, 'showRegister'])->name('login.register');
+
+// 新規登録の処理（POST）
+Route::post('/register', [LoginController::class, 'register'])->name('register.post');
+
+// ログイン画面の表示
+Route::get('/login', [LoginController::class, 'showLogin'])->name('login.showLogin');
+
+// ログインの処理（POST）
+Route::post('/login', [LoginController::class, 'login'])->name('login.post');
